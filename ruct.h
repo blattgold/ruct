@@ -53,11 +53,11 @@ do {                                                        \
 
 #define RUCT_OK_NONE Ruct_Ok_None(RUCT_NONE)
 
-#define RUCT_MAIN(func, ...) \
+#define RUCT_MAIN(func) \
 int main() {                                    \
-Ruct_Result_None res = __RUCT_APPMODULE_##func (__VA_ARGS__);       \
+Ruct_Result_None res = __RUCT_APPMODULE_##func();       \
     if (!res.is_ok) {                           \
-        fprintf(stderr, "ERROR: %s\n", );       \
+        fprintf(stderr, "ERROR: %s\n", res.error);       \
         return -1;                              \
     }                                           \
     return 0;\
