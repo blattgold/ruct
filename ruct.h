@@ -58,13 +58,16 @@ Ruct_Result_None func() {       \
     return RUCT_OK_NONE;            \
 }
 
-#define RUCT_TEST(name, func) do {       \
-    printf("running test %s...\n", name);          \
+#define RUCT_TEST(func) do {       \
+    printf("running test %s... ", #func);          \
     Ruct_Result_None result = func ();                       \
     if (!result.is_ok) {                \
-        printf("test %s failed!\n", name);      \
+        printf("fail!\n");      \
         failed++;               \
-    } else success++;\
+    } else {                        \
+        printf("ok!\n");            \
+        success++;                  \
+    }                               \
 } while (0)
 
 #define RUCT_ASSERT_EQ(desc, v1, v2) do { \
