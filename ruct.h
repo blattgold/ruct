@@ -41,13 +41,15 @@ typedef size_t usize;
 
 #define RUCT_TRY(result)                        \
 result.ok;                                      \
-do {                \
-    if (!result.is_ok) return result;        \
+do {                                            \
+    if (!result.is_ok) return result;           \
 } while (0)
 
-#define RUCT_TRY_CONVERT(result, target_err)           \
-result.ok;                                              \
-if (!result.is_ok) return target_err(result.error);
+#define RUCT_TRY_CONVERT(result, target_err)                \
+result.ok;                                                  \
+do {                                                        \
+    if (!result.is_ok) return target_err(result.error);     \
+} while (0)
 
 #define RUCT_OK_NONE Ruct_Ok_None(RUCT_NONE)
 
