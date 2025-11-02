@@ -21,8 +21,24 @@ RUCT_TEST_DEFINE(test_try_convert_fails,
     u32 v = RUCT_TRY_CONVERT(test_try_convert_fails_helper(), Ruct_Err_None);
 )
 
-RUCT_TEST_MODULE( "ruct_tests",
+RUCT_TESTMODULE( ruct_tests,
     RUCT_TEST_FAIL(test_try_fails);
     RUCT_TEST(test_try_succeeds);
     RUCT_TEST_FAIL(test_try_convert_fails);
 )
+
+RUCT_APPMODULE(appmod_test,
+    return Ruct_Err_None("from app module");
+)
+RUCT_TEST_DEFINE(test_appmod_err,
+    Ruct_None n = RUCT_TRY(RUCT_RUN_APPMODULE(appmod_test));
+)
+
+RUCT_TESTMODULE(ruct_appmod_tests,
+    RUCT_TEST_FAIL(test_appmod_err);
+)
+
+int main() {
+    RUCT_RUN_TESTMODULE(ruct_tests);
+    RUCT_RUN_TESTMODULE(ruct_appmod_tests);
+}

@@ -53,16 +53,37 @@ do {                                                        \
 
 #define RUCT_OK_NONE Ruct_Ok_None(RUCT_NONE)
 
-#define RUCT_TEST_MODULE(name, ...)   \
-    int main() {                \
-        usize success = 0;    \
-        usize failed    = 0;    \
-        __VA_ARGS__             \
-        printf("%s: %ld/%ld passed\n", name, success, success + failed);             \
-        if (failed > 0) {           \
-            return -1;              \
-        }                           \
-    }
+#define RUCT_MAIN(func, ...) \
+int main() {                                    \
+Ruct_Result_None res = __RUCT_APPMODULE_##func (__VA_ARGS__);       \
+    if (!res.is_ok) {                           \
+        fprintf(stderr, "ERROR: %s\n", );       \
+        return -1;                              \
+    }                                           \
+    return 0;\
+}                                               \
+
+#define RUCT_APPMODULE(func, ...)  \
+Ruct_Result_None __RUCT_APPMODULE_##func () {  \
+    __VA_ARGS__                         \
+    return RUCT_OK_NONE;                \
+}
+
+#define RUCT_RUN_APPMODULE(func) __RUCT_APPMODULE_##func()
+
+#define RUCT_TESTMODULE(func, ...)   \
+Ruct_Result_None __RUCT_TESTMODULE_##func () {                \
+    usize success = 0;    \
+    usize failed    = 0;    \
+    __VA_ARGS__             \
+    printf("%s: %ld/%ld passed\n", #func, success, success + failed);             \
+    if (failed > 0) {           \
+        return Ruct_Err_None("One or more tests failed.");              \
+    }                           \
+    return RUCT_OK_NONE;               \
+}
+
+#define RUCT_RUN_TESTMODULE(func) __RUCT_TESTMODULE_##func ();
 
 #define RUCT_TEST_DEFINE(func, ...) \
 Ruct_Result_None func() {       \
