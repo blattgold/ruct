@@ -39,6 +39,10 @@ typedef size_t usize;
 
 #define loop while(1)
 
+#define RUCT_TRY(result)                        \
+result.ok;                                      \
+if (!result.is_ok) return result
+
 #define RUCT_OK_NONE Ruct_Ok_None(RUCT_NONE)
 
 #define RUCT_TEST_MODULE(name, ...)   \
@@ -63,11 +67,24 @@ Ruct_Result_None func() {       \
     Ruct_Result_None result = func ();                       \
     if (!result.is_ok) {                \
         printf("fail!\n");      \
+        printf("Err: %s\n", result.error);        \
         failed++;               \
     } else {                        \
         printf("ok!\n");            \
         success++;                  \
     }                               \
+} while (0)
+
+#define RUCT_TEST_FAIL(func) do {\
+printf("running test %s... ", #func);          \
+Ruct_Result_None result = func ();                       \
+if (!result.is_ok) {                \
+    printf("ok!\n");            \
+    success++;                  \
+} else {                        \
+    printf("fail!\n");      \
+    failed++;               \
+}                               \
 } while (0)
 
 #define RUCT_ASSERT_EQ(desc, v1, v2) do { \
