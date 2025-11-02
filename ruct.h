@@ -73,6 +73,12 @@ Ruct_Result_None func() {       \
     }                                                         \
 } while(0)
 
+#define RUCT_ASSERT_FEQ(desc, v1, v2) do {   \
+    if (!(fabs((f64)v1 - (f64)v2) < (f64)1e-6)) {   \
+        return Ruct_Err_None(desc);             \
+    }                                   \
+} while(0)
+
 #define RUCT_PANIC(msg) do {                    \
     fprintf(stderr, "PANIC: %s\n", msg);        \
     abort();                                    \
