@@ -39,6 +39,36 @@ typedef size_t usize;
 
 #define loop while(1)
 
+#define RUCT_OK_NONE Ruct_Ok_None(RUCT_NONE)
+
+#define RUCT_TEST_MODULE(name, ...)   \
+    int main() {                \
+        usize success = 0;    \
+        usize failed    = 0;    \
+        __VA_ARGS__             \
+        printf("%s: %ld/%ld passed\n", name, success, success + failed);             \
+    }
+
+#define RUCT_TEST_DEFINE(func, ...) \
+Ruct_Result_None func() {       \
+    __VA_ARGS__                 \
+    return RUCT_OK_NONE;            \
+}
+
+#define RUCT_TEST(name, func) do {       \
+    printf("running test %s...\n", name);          \
+    Ruct_Result_None result = func ();                       \
+    if (!result.is_ok) {                \
+        printf("test %s failed!\n", name);      \
+        failed++;               \
+    } else success++;\
+} while (0)
+
+#define RUCT_ASSERT_EQ(desc, v1, v2) do { \
+    if (v1 != v2) {                             \
+        return Ruct_Err_None(desc);\
+    }                                                         \
+} while(0)
 
 #define RUCT_PANIC(msg) do {                    \
     fprintf(stderr, "PANIC: %s\n", msg);        \
