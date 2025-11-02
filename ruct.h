@@ -47,6 +47,9 @@ typedef size_t usize;
         usize failed    = 0;    \
         __VA_ARGS__             \
         printf("%s: %ld/%ld passed\n", name, success, success + failed);             \
+        if (failed > 0) {           \
+            return -1;              \
+        }                           \
     }
 
 #define RUCT_TEST_DEFINE(func, ...) \
