@@ -39,6 +39,11 @@ typedef size_t usize;
 
 #define loop while(1)
 
+#define RUCT_TRY_DISCARD(result)        \
+do {                                    \
+    if (!result.is_ok) return result;   \
+} while(0)
+
 #define RUCT_TRY(result)                        \
 result.ok;                                      \
 do {                                            \
