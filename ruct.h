@@ -90,11 +90,13 @@ Ruct_Result_None __RUCT_TESTMODULE_##func () {                \
 
 #define RUCT_RUN_TESTMODULE(func) __RUCT_TESTMODULE_##func ()
 
-#define RUCT_TEST_DEFINE(func, ...) \
+#define RUCT_TESTDEFINE(func, ...) \
 Ruct_Result_None func() {       \
     __VA_ARGS__                 \
     return RUCT_OK_NONE;            \
 }
+
+#define RUCT_TESTDECLARE(func) Ruct_Result_None func()
 
 #define RUCT_TEST(func) do {       \
     printf("running test %s... ", #func);          \
