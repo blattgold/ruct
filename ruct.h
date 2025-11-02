@@ -83,7 +83,7 @@ Ruct_Result_None __RUCT_TESTMODULE_##func () {                \
     return RUCT_OK_NONE;               \
 }
 
-#define RUCT_RUN_TESTMODULE(func) __RUCT_TESTMODULE_##func ();
+#define RUCT_RUN_TESTMODULE(func) __RUCT_TESTMODULE_##func ()
 
 #define RUCT_TEST_DEFINE(func, ...) \
 Ruct_Result_None func() {       \
